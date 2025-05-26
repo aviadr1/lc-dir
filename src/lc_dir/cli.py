@@ -49,7 +49,8 @@ def write_temp_rule(root, rel_folder, rule_name="temp-folder-rule"):
     os.makedirs(rules_dir, exist_ok=True)
     rule_path = os.path.join(rules_dir, f"{rule_name}.md")
     rel_folder = rel_folder.replace("\\", "/").strip("./")
-    pattern = f'{rel_folder}/**/*.py' if rel_folder else '**/*.py'
+    # default: include every file under the folder (gitignore will still exclude)
+    pattern = f'{rel_folder}/**/*' if rel_folder else '**/*'
     rule_content = f"""---
 description: "Temp rule for {rel_folder or '.'}"
 only-include:
