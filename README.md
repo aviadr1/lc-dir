@@ -34,7 +34,7 @@ pipx install lc-dir
 
 **Requirements:**
 
-* Python 3.7+
+* Python 3.10+
 * The [llm-context](https://github.com/ContextLab/llm-context) CLI, initialized in your project (run `lc-init` once per repo).
 
 ---
@@ -97,31 +97,3 @@ MIT
 ---
 
 **Contributions and issues welcome!**
-
-````
-
----
-
-## **What to include in your repo:**
-
-- This `README.md`
-- `pyproject.toml` with `[project.scripts] lc-dir = "lc_dir.cli:main"`
-- `lc_dir/cli.py` and `lc_dir/__init__.py`
-- Standard `LICENSE` and `.gitignore`
-
----
-
-### **Ready for PyPI**
-
-With this setup, you can publish to PyPI and anyone can do:
-
-```sh
-pipx install lc-dir
-````
-
-And then:
-
-```sh
-cd my/project/subdir
-lc-dir
-```
