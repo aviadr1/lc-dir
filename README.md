@@ -26,6 +26,13 @@ When working with LLMs (like ChatGPT, Claude, or Copilot), you often need to sha
 
 ## Installation
 
+first install llm-context CLI if you haven't already:
+```sh
+pipx install llm-context
+```
+
+Then, install `lc-dir`:
+
 ```sh
 pipx install lc-dir
 ````

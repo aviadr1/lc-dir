@@ -16,11 +16,8 @@ lc-dir = "lc_dir.cli:main"
 python = ">=3.10"
 llm-context = ">=0.3.2,<0.4.0"
 
-[poetry.group.dev.dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
-# flake8 = "^6.1.0"
-# black = "^23.9.1"
-# pre-commit = "^2.20.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
