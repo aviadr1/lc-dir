@@ -31,7 +31,7 @@ def test_multiple_targets(tmp_path, monkeypatch, capsys):
     (root / "models").mkdir()
 
     monkeypatch.chdir(root)
-    monkeypatch.setattr(shutil, "which", DummyWhich(["lc-set-rule", "lc-sel-files", "lc-context"]))
+    monkeypatch.setattr(shutil, "which", DummyWhich(["lc-set-rule", "lc-sel-files", "lc-sel-outlines", "lc-context"]))
 
     calls = []
     monkeypatch.setattr(subprocess, "run", lambda cmd, cwd, check: calls.append(cmd))
@@ -55,5 +55,6 @@ def test_multiple_targets(tmp_path, monkeypatch, capsys):
     assert calls == [
         ["lc-set-rule", "temp-lc-dir-rule"],
         ["lc-sel-files"],
+        ["lc-sel-outlines"],
         ["lc-context"],
     ]

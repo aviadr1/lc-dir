@@ -99,6 +99,12 @@ def ensure_temp_rule_in_gitignore(root, rule_name="temp-lc-dir-rule"):
         print(f"{GREEN}Added{RESET} {rule_filename} to .llm-context/.gitignore")
 
 
+IGNORE_ALL_DIAGRAM_FILES = """
+gitignores:
+  diagram_files:
+    - "**/*"
+"""
+
 def write_temp_rule(root, rel_folders, rule_name="temp-lc-dir-rule"):
     """
     Create a single temporary rule including all rel_folders.
@@ -121,8 +127,10 @@ def write_temp_rule(root, rel_folders, rule_name="temp-lc-dir-rule"):
         "---",
         "base: lc-gitignores",
         f'description: "Temp rule for {desc}"',
+        # IGNORE_ALL_DIAGRAM_FILES,
         "only-include:",
-        "  full_files:",
+        '   outline_files: []',
+        "   full_files:",
     ]
     for pat in patterns:
         lines.append(f'    - "{pat}"')
@@ -143,7 +151,7 @@ def write_temp_rule(root, rel_folders, rule_name="temp-lc-dir-rule"):
 
 
 def run_llm_context_commands(root, rule_name):
-    for cmd in [["lc-set-rule", rule_name], ["lc-sel-files"], ["lc-context"]]:
+    for cmd in [["lc-set-rule", rule_name], ["lc-sel-files"], ["lc-sel-outlines"], ["lc-context"]]:
         print(f"{CYAN}>>{RESET}", " ".join(cmd))
         subprocess.run(cmd, cwd=root, check=True)
 
