@@ -6,8 +6,11 @@ set "BUMP=%~1"
 if "%BUMP%"=="" set "BUMP=patch"
 
 echo Bumping version (%BUMP%)...
-for /f "tokens=2" %%V in ('poetry version %BUMP%') do set "NEW_VERSION=%%V"
+
+REM --- Use delayed expansion to get the last line as version ---
+for /f "delims=" %%V in ('poetry version --short %BUMP%') do set "NEW_VERSION=%%V"
 echo → New version: %NEW_VERSION%
+REM --- end of version extraction ---
 
 echo Committing version bump...
 git add pyproject.toml
