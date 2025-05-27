@@ -16,6 +16,7 @@ RESET = "\033[0m"
 REQUIRED_CMDS = ["lc-set-rule", "lc-sel-files", "lc-context"]
 LLM_CONTEXT_URL = "https://github.com/cyberchitta/llm-context.py"
 
+
 def ensure_llm_context_installed():
     missing = [cmd for cmd in REQUIRED_CMDS if shutil.which(cmd) is None]
     if missing:
@@ -25,6 +26,7 @@ def ensure_llm_context_installed():
         print("  pipx install llm-context")
         print(f"See {LLM_CONTEXT_URL} for more.")
         sys.exit(1)
+
 
 def find_git_root(path):
     orig = os.path.abspath(path)
@@ -36,6 +38,7 @@ def find_git_root(path):
             print(f"Error: Could not find .gitignore in any parent directory of {orig}")
             sys.exit(1)
         path = parent
+
 
 def find_folder(root, query):
     candidate = os.path.abspath(os.path.join(root, query))
@@ -64,6 +67,37 @@ def find_folder(root, query):
             sys.exit(1)
 
     return matches[0]
+
+
+def ensure_temp_rule_in_gitignore(root, rule_name="temp-folder-rule"):
+    """
+    Ensure that temp-folder-rule.md is in .llm-context/.gitignore
+    """
+    llm_context_dir = os.path.join(root, ".llm-context")
+    gitignore_path = os.path.join(llm_context_dir, ".gitignore")
+    rule_filename = f"{rule_name}.md"
+
+    # Create .llm-context directory if it doesn't exist
+    os.makedirs(llm_context_dir, exist_ok=True)
+
+    # Read existing .gitignore content
+    existing_lines = []
+    if os.path.exists(gitignore_path):
+        with open(gitignore_path, "r", encoding="utf-8") as f:
+            existing_lines = [line.rstrip('\n\r') for line in f.readlines()]
+
+    # Check if rule_filename is already in gitignore
+    if rule_filename not in existing_lines:
+        # Add the rule filename to gitignore
+        existing_lines.append(rule_filename)
+
+        # Write back to .gitignore
+        with open(gitignore_path, "w", encoding="utf-8") as f:
+            for line in existing_lines:
+                f.write(line + "\n")
+
+        print(f"{GREEN}Added{RESET} {rule_filename} to .llm-context/.gitignore")
+
 
 def write_temp_rule(root, rel_folders, rule_name="temp-folder-rule"):
     """
@@ -102,12 +136,17 @@ def write_temp_rule(root, rel_folders, rule_name="temp-folder-rule"):
     with open(rule_path, "w", encoding="utf-8") as f:
         f.write(content)
 
+    # Ensure the temp rule is in .gitignore
+    ensure_temp_rule_in_gitignore(root, rule_name)
+
     return rule_name
+
 
 def run_llm_context_commands(root, rule_name):
     for cmd in [["lc-set-rule", rule_name], ["lc-sel-files"], ["lc-context"]]:
         print(f"{CYAN}>>{RESET}", " ".join(cmd))
         subprocess.run(cmd, cwd=root, check=True)
+
 
 def main():
     ensure_llm_context_installed()
@@ -150,6 +189,7 @@ def main():
 
     rule_name = write_temp_rule(root, rel_folders)
     run_llm_context_commands(root, rule_name)
+
 
 if __name__ == "__main__":
     main()
