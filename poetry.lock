@@ -74,7 +74,6 @@ files = [
     {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
-markers = {main = "sys_platform != \"emscripten\" and platform_system == \"Windows\"", dev = "sys_platform == \"win32\""}
 
 [[package]]
 name = "exceptiongroup"
@@ -926,4 +925,4 @@ standard = ["colorama (>=0.4) ; sys_platform == \"win32\"", "httptools (>=0.6.3)
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "7062860d600f6743e7d79182eeea77079c18372a0cebb3cad464c7ceb2af8f70"
+content-hash = "1f29684a0e196c3e00e430d0a96b30e9bc1d5e7339fbc13d6ee91687673fdce1"

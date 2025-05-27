@@ -16,6 +16,7 @@ lc-dir = "lc_dir.cli:main"
 # Core functionality is in stdlib; llm-context is required in the target project
 python = ">=3.10"
 llm-context = ">=0.3.2,<0.4.0"
+colorama = "^0.4.6"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
