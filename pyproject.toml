@@ -7,6 +7,7 @@ license = "MIT"
 readme = "README.md"
 repository = "https://github.com/aviadr1/lc-dir"
 keywords = ["llm", "cli", "python", "context", "ai"]
+packages = [{ include = "lc_dir", from = "src" }]
 
 [tool.poetry.scripts]
 lc-dir = "lc_dir.cli:main"
