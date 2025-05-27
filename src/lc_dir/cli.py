@@ -81,24 +81,24 @@ def write_temp_rule(root, rel_folders, rule_name="temp-folder-rule"):
         pat = f"{r}/**/*" if r else "**/*"
         patterns.append(pat)
 
-    rules_dir = os.path.join(root, ".llm-context", "rules")
-    os.makedirs(rules_dir, exist_ok=True)
-    rule_path = os.path.join(rules_dir, f"{rule_name}.md")
-
+    # build the YAML frontmatter in one block
+    desc = ", ".join(patterns) or "."
     lines = [
         "---",
         "base: lc-gitignores",
-        "description: Default rule for software projects, using lc-gitignores base rule",
-        "---",
-        f'description: "Temp rule for {", ".join(rel_folders) or "."}"',
+        f'description: "Temp rule for {desc}"',
         "only-include:",
-        "  full_files:"
+        "  full_files:",
     ]
     for pat in patterns:
         lines.append(f'    - "{pat}"')
     lines.append("---")
     content = "\n".join(lines) + "\n"
 
+    # write out the rule file
+    rules_dir = os.path.join(root, ".llm-context", "rules")
+    os.makedirs(rules_dir, exist_ok=True)
+    rule_path = os.path.join(rules_dir, f"{rule_name}.md")
     with open(rule_path, "w", encoding="utf-8") as f:
         f.write(content)
 
