@@ -87,6 +87,9 @@ def write_temp_rule(root, rel_folders, rule_name="temp-folder-rule"):
 
     lines = [
         "---",
+        "base: lc-gitignores",
+        "description: Default rule for software projects, using lc-gitignores base rule",
+        "---",
         f'description: "Temp rule for {", ".join(rel_folders) or "."}"',
         "only-include:",
         "  full_files:"
