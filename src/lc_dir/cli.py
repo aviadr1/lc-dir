@@ -69,9 +69,9 @@ def find_folder(root, query):
     return matches[0]
 
 
-def ensure_temp_rule_in_gitignore(root, rule_name="temp-folder-rule"):
+def ensure_temp_rule_in_gitignore(root, rule_name="temp-lc-dir-rule"):
     """
-    Ensure that temp-folder-rule.md is in .llm-context/.gitignore
+    Ensure that temp-lc-dir-rule.md is in .llm-context/.gitignore
     """
     llm_context_dir = os.path.join(root, ".llm-context")
     gitignore_path = os.path.join(llm_context_dir, ".gitignore")
@@ -99,7 +99,7 @@ def ensure_temp_rule_in_gitignore(root, rule_name="temp-folder-rule"):
         print(f"{GREEN}Added{RESET} {rule_filename} to .llm-context/.gitignore")
 
 
-def write_temp_rule(root, rel_folders, rule_name="temp-folder-rule"):
+def write_temp_rule(root, rel_folders, rule_name="temp-lc-dir-rule"):
     """
     Create a single temporary rule including all rel_folders.
     Accepts a string or a list of strings.

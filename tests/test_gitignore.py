@@ -4,7 +4,7 @@ from lc_dir.cli import ensure_temp_rule_in_gitignore, write_temp_rule
 
 
 def test_ensure_temp_rule_in_gitignore_new_file(tmp_path):
-    """Test adding temp-folder-rule.md to a new .gitignore file"""
+    """Test adding temp-lc-dir-rule.md to a new .gitignore file"""
     root = tmp_path / "repo"
     root.mkdir()
     (root / ".gitignore").write_text("")  # Create main gitignore
@@ -16,11 +16,11 @@ def test_ensure_temp_rule_in_gitignore_new_file(tmp_path):
     gitignore_path = root / ".llm-context" / ".gitignore"
     assert gitignore_path.exists()
     content = gitignore_path.read_text()
-    assert "temp-folder-rule.md" in content
+    assert "temp-lc-dir-rule.md" in content
 
 
 def test_ensure_temp_rule_in_gitignore_existing_file(tmp_path):
-    """Test adding temp-folder-rule.md to existing .gitignore that doesn't have it"""
+    """Test adding temp-lc-dir-rule.md to existing .gitignore that doesn't have it"""
     root = tmp_path / "repo"
     root.mkdir()
     (root / ".gitignore").write_text("")  # Create main gitignore
@@ -34,15 +34,15 @@ def test_ensure_temp_rule_in_gitignore_existing_file(tmp_path):
     # Call the function
     ensure_temp_rule_in_gitignore(str(root))
 
-    # Check that temp-folder-rule.md was added while preserving existing content
+    # Check that temp-lc-dir-rule.md was added while preserving existing content
     content = gitignore_path.read_text()
     lines = content.strip().split('\n')
     assert "some-other-file.md" in lines
-    assert "temp-folder-rule.md" in lines
+    assert "rules/temp-lc-dir-rule.md" in lines
 
 
 def test_ensure_temp_rule_in_gitignore_already_exists(tmp_path):
-    """Test that temp-folder-rule.md is not duplicated if already in .gitignore"""
+    """Test that temp-lc-dir-rule.md is not duplicated if already in .gitignore"""
     root = tmp_path / "repo"
     root.mkdir()
     (root / ".gitignore").write_text("")  # Create main gitignore
@@ -51,7 +51,7 @@ def test_ensure_temp_rule_in_gitignore_already_exists(tmp_path):
     llm_context_dir = root / ".llm-context"
     llm_context_dir.mkdir()
     gitignore_path = llm_context_dir / ".gitignore"
-    original_content = "temp-folder-rule.md\nother-file.md\n"
+    original_content = "rules/temp-lc-dir-rule.md\nother-file.md\n"
     gitignore_path.write_text(original_content)
 
     # Call the function
@@ -61,7 +61,7 @@ def test_ensure_temp_rule_in_gitignore_already_exists(tmp_path):
     content = gitignore_path.read_text()
     assert content == original_content
     # Count occurrences to ensure no duplication
-    assert content.count("temp-folder-rule.md") == 1
+    assert content.count("temp-lc-dir-rule.md") == 1
 
 
 def test_write_temp_rule_calls_gitignore_function(tmp_path):
@@ -81,7 +81,7 @@ def test_write_temp_rule_calls_gitignore_function(tmp_path):
     gitignore_path = root / ".llm-context" / ".gitignore"
     assert gitignore_path.exists()
     content = gitignore_path.read_text()
-    assert "temp-folder-rule.md" in content
+    assert "rules/temp-lc-dir-rule.md" in content
 
 
 def test_custom_rule_name_in_gitignore(tmp_path):
@@ -99,4 +99,4 @@ def test_custom_rule_name_in_gitignore(tmp_path):
     gitignore_path = root / ".llm-context" / ".gitignore"
     content = gitignore_path.read_text()
     assert f"{custom_rule_name}.md" in content
-    assert "temp-folder-rule.md" not in content  # Should not have default name
+    assert "rules/temp-lc-dir-rule.md" not in content  # Should not have default name

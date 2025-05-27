@@ -45,7 +45,7 @@ def test_multiple_targets(tmp_path, monkeypatch, capsys):
     assert "Found: 'models' → models" in out
 
     # rule file should contain all three patterns
-    rule = root / ".llm-context" / "rules" / "temp-folder-rule.md"
+    rule = root / ".llm-context" / "rules" / "temp-lc-dir-rule.md"
     txt = rule.read_text()
     assert '- "common/**/*"' in txt
     assert '- "kafka/**/*"' in txt
@@ -53,7 +53,7 @@ def test_multiple_targets(tmp_path, monkeypatch, capsys):
 
     # single invocation of each llm-context command
     assert calls == [
-        ["lc-set-rule", "temp-folder-rule"],
+        ["lc-set-rule", "temp-lc-dir-rule"],
         ["lc-sel-files"],
         ["lc-context"],
     ]
