@@ -3,7 +3,7 @@ import sys
 import shutil
 import pytest
 from lc_dir.cli import find_git_root, find_folder, write_temp_rule
-from lc_dir.cli import ensure_llm_context_installed, TOOL_URL
+from lc_dir.cli import ensure_llm_context_installed, LLM_CONTEXT_URL
 
 def test_find_git_root(tmp_path, monkeypatch):
     # create nested folder with a fake .gitignore at root
@@ -82,7 +82,7 @@ def test_ensure_llm_context_missing_one(monkeypatch, capsys):
     captured = capsys.readouterr()
     # Expect error mention of missing command and TOOL_URL
     assert "'lc-sel-files' not found" in captured.out
-    assert TOOL_URL in captured.out
+    assert LLM_CONTEXT_URL in captured.out
 
 
 def test_ensure_llm_context_missing_all(monkeypatch, capsys):
@@ -94,4 +94,18 @@ def test_ensure_llm_context_missing_all(monkeypatch, capsys):
     captured = capsys.readouterr()
     # First missing command reported is lc-set-rule
     assert "'lc-set-rule' not found" in captured.out
-    assert TOOL_URL in captured.out
+    assert LLM_CONTEXT_URL in captured.out
+
+def test_find_folder_recursive_search(tmp_path):
+    # Set up repo root with nested .gitignore
+    root = tmp_path / "repo"
+    root.mkdir()
+    (root / ".gitignore").write_text("")
+
+    # create a deeply nested folder named "common"
+    nested = root / "a" / "b" / "c" / "common"
+    nested.mkdir(parents=True)
+
+    # even though we're in root/a, asking for "common" should find it:
+    rel = find_folder(str(root), "common")
+    assert rel == os.path.normpath("a/b/c/common")
