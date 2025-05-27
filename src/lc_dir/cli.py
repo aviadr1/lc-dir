@@ -75,7 +75,7 @@ def ensure_temp_rule_in_gitignore(root, rule_name="temp-folder-rule"):
     """
     llm_context_dir = os.path.join(root, ".llm-context")
     gitignore_path = os.path.join(llm_context_dir, ".gitignore")
-    rule_filename = f"{rule_name}.md"
+    rule_filename = f"rules/{rule_name}.md"
 
     # Create .llm-context directory if it doesn't exist
     os.makedirs(llm_context_dir, exist_ok=True)
